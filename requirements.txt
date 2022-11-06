@@ -1,0 +1,4 @@
+numpy==1.20.2
+opencv_python==4.5.4.60
+pytesseract==0.3.7
+PyYAML==6.0

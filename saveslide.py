@@ -43,14 +43,13 @@ vidcap = cv2.VideoCapture(config['VIDEO_NAME'])
 frames = vidcap.get(cv2.CAP_PROP_FRAME_COUNT)           # frame totali
 fps = vidcap.get(cv2.CAP_PROP_FPS)
 
-bordo_std = config['IMG_CROP_BORDERS']                      # per cropping sul numero
-skipFrames = fps                                        # controlla solo un frame ogni 'skipFrames'
+bordo_std = config['IMG_CROP_BORDERS']                  # per cropping sul numero
+skipFrames = config['READ_EVERY_N_FRAMES']              # controlla solo un frame ogni 'skipFrames'
 errore = config['TOLERANCE']                            # tolleranza confronto slide
 startFrame = config['START_FRAME']
-frameSkipper= config['READ_EVERY_N_FRAMES']
+frameSkipper = 1
 c = startFrame
 numeriSlide = []                                        # lista per evitare ripetizioni di slide
-
 vidcap.set(cv2.CAP_PROP_POS_FRAMES, c)                  # imposta frame iniziale
 
 isFrame, lastFrame = vidcap.read()                      # init del primo frame
@@ -72,7 +71,7 @@ while c<frames:
                 slidenum = int(getSlidenumber(cropped(nextFrame,bordo_std))) # controlla numero
                 
             if slidenum not in numeriSlide: # se la slide non è ancora apparsa
-                cv2.imwrite('{}\slide{}.png'.format(config['SLIDES_PATH'],slidenum),nextFrame) #salva frame
+                cv2.imwrite('{}\slide{}.png'.format(config['SLIDES_PATH'],slidenum),nextFrame) #salva frame successivo
                 numeriSlide.append(slidenum)
         except Exception as e:
             #print(e)
