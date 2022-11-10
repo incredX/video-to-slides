@@ -1,15 +1,13 @@
 # path of tesseract executable
-TESSERACT_PATH: C:\example\Tesseract\tesseract.exe
-# name (and path) of video to analyze
-VIDEO_NAME: vid.mp4
+TESSERACT_PATH: \tesseract.exe
 # tolerance in comparing 2 frames
 TOLERANCE: 1
 # number of frames to skip after every read frame
 READ_EVERY_N_FRAMES: 10
 # frame to start analisys
 START_FRAME: 0
-# coords to crop frame only to read the number
-# [start_row,end_row,start_col,end_col]
-IMG_CROP_BORDERS: [1000,1070,1600,1660]
+# coords to crop frame to read slide number (in %width, %height)
+# [x1,y1,x2,y2]
+IMG_CROP_BORDERS: [83.5,93,87,99]
 # path to save
 SLIDES_PATH: slides
