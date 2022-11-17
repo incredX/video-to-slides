@@ -87,7 +87,7 @@ def run(video_path:str):
                 if slidenum not in numeriSlide: # se la slide non è ancora apparsa
                     nextFrame = vidcap.read()[1] # skippa un frame per evitare slide blurrate
                     # orribile ma più veloce di 'vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame)' soprattutto con 1 solo frame skip
-                    cv2.imwrite('{}\slide{}.png'.format(config['SLIDES_PATH'],slidenum),_cropped(nextFrame,bordo_slide)) #salva frame successivo
+                    cv2.imwrite('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum),_cropped(nextFrame,bordo_slide)) #salva frame successivo
                     numeriSlide.append(slidenum)
             except Exception as e:
                 #print(e)
