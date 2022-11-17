@@ -48,7 +48,7 @@ def run(video_path:str):
     '''
     # definizione variabili e init classi
 
-    config = yaml.safe_load(open('config/config.yml', 'rb'))# file config
+    config = yaml.safe_load(open('video-to-slides/config/config.yml', 'rb'))# file config
 
     pytesseract.pytesseract.tesseract_cmd = config['TESSERACT_PATH']
 
