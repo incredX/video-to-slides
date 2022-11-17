@@ -11,7 +11,7 @@ In this project after the first commit, every change will be handled within an i
 
 ## Dependencies
 
-- use  ``` pip install -r requirements.txt ``` or  ``` pip3 install -r requirements.txt ``` in the terminal, to download all the dependencies.
+- use  ``` pip install -r requirements.txt ``` or  ``` pip3 install -r requirements.txt ``` in the terminal, to install all the dependencies.
 
 ### PyTesseract
 
