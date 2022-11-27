@@ -2,6 +2,7 @@ import cv2
 import pytesseract
 import numpy as np
 import yaml
+from PIL import Image
 
 def _isDifferent(img1, img2,errore: int) -> bool:
     '''
@@ -48,7 +49,7 @@ def run(video_path:str):
     '''
     # definizione variabili e init classi
 
-    config = yaml.safe_load(open('video-to-slides/config/config.yml', 'rb'))# file config
+    config = yaml.safe_load(open('config/config.yml', 'rb'))# file config
 
     pytesseract.pytesseract.tesseract_cmd = config['TESSERACT_PATH']
 
@@ -65,6 +66,7 @@ def run(video_path:str):
     frameSkipper = 1
     c = startFrame
     numeriSlide = []                                        # lista per evitare ripetizioni di slide
+    list_image = []                                         # lista per fare un pdf con tutte le slide
     vidcap.set(cv2.CAP_PROP_POS_FRAMES, c)                  # imposta frame iniziale
 
     lastFrame = vidcap.read()[1]                      # init del primo frame
@@ -89,8 +91,20 @@ def run(video_path:str):
                     # orribile ma più veloce di 'vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame)' soprattutto con 1 solo frame skip
                     cv2.imwrite('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum),_cropped(nextFrame,bordo_slide)) #salva frame successivo
                     numeriSlide.append(slidenum)
+                    list_image.append(Image.open('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum)).convert("RGB"))
+                    
+                    
+
             except Exception as e:
                 #print(e)
                 pass
                 
         lastFrame = nextFrame # next frame diventa lastFrame
+    # merge into one pdf
+    if len(list_image) == 0:
+        return
+    # get first element of list and pop it from list
+    img1 = list_image[0]
+    list_image.pop(0)
+    # append all images and save as pdf
+    img1.save(r'{}/slides.pdf'.format(config['SLIDES_PATH']),save_all=True, append_images=list_image)
