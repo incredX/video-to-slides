@@ -66,7 +66,7 @@ def run(video_path:str):
     frameSkipper = 1
     c = startFrame
     numeriSlide = []                                        # lista per evitare ripetizioni di slide
-    list_image = []                                         # lista per fare un pdf con tutte le slide
+    image_list = []                                         # lista per fare un pdf con tutte le slide
     vidcap.set(cv2.CAP_PROP_POS_FRAMES, c)                  # imposta frame iniziale
 
     lastFrame = vidcap.read()[1]                      # init del primo frame
@@ -91,7 +91,8 @@ def run(video_path:str):
                     # orribile ma più veloce di 'vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame)' soprattutto con 1 solo frame skip
                     cv2.imwrite('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum),_cropped(nextFrame,bordo_slide)) #salva frame successivo
                     numeriSlide.append(slidenum)
-                    list_image.append(Image.open('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum)).convert("RGB"))
+                    image_list.append(Image.open('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum)).convert("RGB")) 
+                    #prende la slide ritagliata, la converte e la aggiunge alla lista
                     
                     
 
@@ -100,11 +101,9 @@ def run(video_path:str):
                 pass
                 
         lastFrame = nextFrame # next frame diventa lastFrame
-    # merge into one pdf
-    if len(list_image) == 0:
+    
+    if len(image_list) == 0: #se la lista non ha slide
         return
-    # get first element of list and pop it from list
-    img1 = list_image[0]
-    list_image.pop(0)
-    # append all images and save as pdf
-    img1.save(r'{}/slides.pdf'.format(config['SLIDES_PATH']),save_all=True, append_images=list_image)
+    pdf = image_list[0]
+    image_list.pop(0) # toglie la prima pagina dalla lista, se no abbiamo un doppione
+    pdf.save(r'{}/slides.pdf'.format(config['SLIDES_PATH']),save_all=True, append_images=image_list) #unisce tutte le immagini e le salva
