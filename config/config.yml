@@ -1,5 +1,5 @@
 # path of tesseract executable change if you installed tesseract differently
-TESSERACT_PATH: /opt/homebrew/bin/tesseract
+TESSERACT_PATH: /tesseract
 # tolerance in comparing 2 frames
 TOLERANCE: 1
 # number of frames to skip after every read frame
