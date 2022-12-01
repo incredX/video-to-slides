@@ -11,9 +11,7 @@ In this project after the first commit, every change will be handled within an i
 
 ## Dependencies
 
-### macOS
-
-- use  ``` pip install -r requirements.txt ``` or  ``` pip3 install -r requirements.txt ``` in the terminal, to install all the dependencies.
+use  ``` pip install -r requirements.txt ``` or  ``` pip3 install -r requirements.txt ``` in the terminal, to install all the dependencies.
 
 ### Windows
 
@@ -23,6 +21,6 @@ In this project after the first commit, every change will be handled within an i
 -   run `playwright install`
 
 
-### PyTesseract
+### MacOS
 - install using Homebrew ```brew install tesseract```
 - copy installation path inside [config.yml](./config/config.yml) under `TESSERACT_PATH`, to find the path use ```which tesseract```
