@@ -1,5 +1,5 @@
-# path of tesseract executable
-TESSERACT_PATH: \tesseract.exe
+# path of tesseract executable change if you installed tesseract differently
+TESSERACT_PATH: /tesseract
 # tolerance in comparing 2 frames
 TOLERANCE: 1
 # number of frames to skip after every read frame
@@ -10,6 +10,6 @@ START_FRAME: 0
 # [x1,y1,x2,y2]
 NUMBER_CROP_BORDERS: [83.5,93,87,99]
 # coords to crop the final slide (e.g. to remove black bars)
-IMG_CROP_BORDERS: [13,0,87,100]
+IMG_CROP_BORDERS: [13,2,87.5,98]
 # path to save
 SLIDES_PATH: slides

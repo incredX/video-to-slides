@@ -2,6 +2,7 @@ import cv2
 import pytesseract
 import numpy as np
 import yaml
+from PIL import Image
 
 def _isDifferent(img1, img2,errore: int) -> bool:
     '''
@@ -65,6 +66,7 @@ def run(video_path:str):
     frameSkipper = 1
     c = startFrame
     numeriSlide = []                                        # lista per evitare ripetizioni di slide
+    image_list = []                                         # lista per fare un pdf con tutte le slide
     vidcap.set(cv2.CAP_PROP_POS_FRAMES, c)                  # imposta frame iniziale
 
     lastFrame = vidcap.read()[1]                      # init del primo frame
@@ -87,10 +89,21 @@ def run(video_path:str):
                 if slidenum not in numeriSlide: # se la slide non è ancora apparsa
                     nextFrame = vidcap.read()[1] # skippa un frame per evitare slide blurrate
                     # orribile ma più veloce di 'vidcap.set(cv2.CAP_PROP_POS_FRAMES, frame)' soprattutto con 1 solo frame skip
-                    cv2.imwrite('{}\slide{}.png'.format(config['SLIDES_PATH'],slidenum),_cropped(nextFrame,bordo_slide)) #salva frame successivo
+                    cv2.imwrite('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum),_cropped(nextFrame,bordo_slide)) #salva frame successivo
                     numeriSlide.append(slidenum)
+                    image_list.append(Image.open('{}/slide{}.png'.format(config['SLIDES_PATH'],slidenum)).convert("RGB")) 
+                    #prende la slide ritagliata, la converte e la aggiunge alla lista
+                    
+                    
+
             except Exception as e:
                 #print(e)
                 pass
                 
         lastFrame = nextFrame # next frame diventa lastFrame
+    
+    if len(image_list) == 0: #se la lista non ha slide
+        return
+    pdf = image_list[0]
+    image_list.pop(0) # toglie la prima pagina dalla lista, se no abbiamo un doppione
+    pdf.save(r'{}/slides.pdf'.format(config['SLIDES_PATH']),save_all=True, append_images=image_list) #unisce tutte le immagini e le salva
